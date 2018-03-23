@@ -5,12 +5,8 @@ void	ft_putchar(char c)
 	write(1, &c, 1);
 }
 
-void	ft_putnbr(char nbr)
+void	ft_putoctal(short nbr)
 {
-	if (nbr / 16 >= 0 && nbr / 16 < 10)
-		ft_putchar((nbr / 16) + '0');
-	else if (nbr / 16 >= 10 && nbr / 16 < 16)
-		ft_putchar((nbr / 16) - 10 + 'a');
 	if (nbr % 16 >= 0 && nbr % 16 < 10)
 		ft_putchar(nbr % 16 + '0');
 	else if (nbr % 16 >= 10 && nbr % 16 < 16)
@@ -20,20 +16,22 @@ void	ft_putnbr(char nbr)
 void	print_memory(const void *addr, size_t size)
 {
 	size_t	index;
-	char	*nbr;
+	short	*nbr;
 
-	nbr = (char*)addr;
+	nbr = (short*)addr;
 	index = 0;
-	while (index < size / sizeof(int))
+	while (index < size / sizeof(short))
 	{
-		ft_putnbr(nbr[index]);
-		ft_putnbr(nbr[index + 1]);
-		ft_putchar(' ');
-		ft_putnbr(nbr[index + 2]);
-		ft_putnbr(nbr[index + 3]);
+		ft_putoctal(nbr[index] >> 4);
+		ft_putoctal(nbr[index]);
+		if (size - index >= 2)
+		{
+			ft_putoctal(nbr[index] >> 12);
+			ft_putoctal(nbr[index] >> 8);
+		}
 		ft_putchar(' ');
 		index++;
-		if (index % 4 == 0)
+		if (index % 8 == 0)
 			ft_putchar('\n');
 	}
 }
