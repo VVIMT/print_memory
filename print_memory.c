@@ -13,6 +13,23 @@ void	ft_putoctal(short nbr)
 		ft_putchar(nbr % 16 - 10 + 'a');
 }
 
+void	print_dots(size_t index, short *nbr, size_t size)
+{
+	while (index < size)
+	{
+		if (nbr[index] >= 32 && nbr[index] <= 126)
+			ft_putchar(nbr[index]);
+		else
+			ft_putchar('.');
+		if ((nbr[index] >> 8) >= 32 && (nbr[index] >> 8) <= 126)
+			ft_putchar(nbr[index] >> 8);
+		else
+			ft_putchar('.');
+		index++;
+	}
+	ft_putchar('\n');
+}
+
 void	print_memory(const void *addr, size_t size)
 {
 	size_t	index;
@@ -30,9 +47,10 @@ void	print_memory(const void *addr, size_t size)
 			ft_putoctal(nbr[index] >> 8);
 		}
 		ft_putchar(' ');
+
 		index++;
 		if (index % 8 == 0)
-			ft_putchar('\n');
+			print_dots(index - 8, nbr, index);
 	}
 }
 
